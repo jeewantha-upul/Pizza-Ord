@@ -12,7 +12,8 @@ module.exports = {
   },
   rules: {
     "no-unused-vars": "off",
-    "react/no-unescaped-entities": "off", // Disable no-unused-vars globally
+    "react/no-unescaped-entities": "off",
+    "react/react-in-jsx-scope": "off",
     // Add any custom rules here
   },
 };

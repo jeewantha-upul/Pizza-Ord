@@ -4,12 +4,20 @@ import Home from "./UI/Home";
 import Menu from "./features/menu/Menu";
 import CreateOrder from "./features/orders/CreateOrder";
 import Order from "./features/orders/Order";
+import AppLayout from "./UI/AppLayout";
+import { loader as menuLoader } from "./features/menu/Menu";
+
 const App = () => {
   const routes = createBrowserRouter([
-    { path: "/", element: <Home /> },
-    { path: "/menu", element: <Menu /> },
-    { path: "/order/new", element: <CreateOrder /> },
-    { path: "/order/:orderId", element: <Order /> },
+    {
+      element: <AppLayout />,
+      children: [
+        { path: "/", element: <Home /> },
+        { path: "/menu", element: <Menu />, loader: menuLoader },
+        { path: "/order/new", element: <CreateOrder /> },
+        { path: "/order/:orderId", element: <Order /> },
+      ],
+    },
   ]);
   return <RouterProvider router={routes} />;
 };
