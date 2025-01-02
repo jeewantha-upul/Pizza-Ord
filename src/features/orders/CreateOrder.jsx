@@ -1,10 +1,13 @@
 /* eslint-disable react/react-in-jsx-scope */
-import { useState } from "react";
+
+import Button from "../../UI/Button";
+import { Form, redirect, useActionData } from "react-router-dom";
+import { createOrder } from "../../services/apiRestaurant";
 
 // https://uibakery.io/regex-library/phone-number
 const isValidPhone = (str) =>
   /^\+?\d{1,4}?[-.\s]?\(?\d{1,3}?\)?[-.\s]?\d{1,4}[-.\s]?\d{1,4}[-.\s]?\d{1,9}$/.test(
-    str
+    str,
   );
 
 const fakeCart = [
@@ -35,11 +38,14 @@ function CreateOrder() {
   // const [withPriority, setWithPriority] = useState(false);
   const cart = fakeCart;
 
+  const formErrors = useActionData();
+  const phoneNumberError = formErrors?.phone;
+
   return (
     <div>
       <h2>Ready to order? Let's go!</h2>
 
-      <form>
+      <Form method="POST">
         <div>
           <label>First Name</label>
           <input type="text" name="customer" required />
@@ -50,17 +56,24 @@ function CreateOrder() {
           <div>
             <input type="tel" name="phone" required />
           </div>
+          {phoneNumberError && <p>{phoneNumberError}</p>}
         </div>
 
         <div>
           <label>Address</label>
           <div>
-            <input type="text" name="address" required />
+            <input
+              type="text"
+              name="address"
+              required
+              className="w-full rounded-full border border-stone-200 px-4 py-2 text-sm transition-all duration-300 placeholder:text-stone-400 focus:outline-none focus:ring focus:ring-yellow-400 md:px-6 md:py-3"
+            />
           </div>
         </div>
 
         <div>
           <input
+            className="focus:rinf-offset-2 h-6 w-6 accent-yellow-400 focus:outline-none focus:ring focus:ring-yellow-400"
             type="checkbox"
             name="priority"
             id="priority"
@@ -71,11 +84,36 @@ function CreateOrder() {
         </div>
 
         <div>
-          <button>Order now</button>
+          <input type="hidden" name="cart" value={JSON.stringify(cart)} />
+          <Button>Order Now</Button>
         </div>
-      </form>
+      </Form>
     </div>
   );
 }
+
+export const action = async ({ request }) => {
+  const formData = await request.formData();
+  const formObj = Object.fromEntries(formData);
+
+  const order = {
+    ...formObj,
+    cart: JSON.parse(formObj.cart),
+    priority: formObj.priority === "on",
+  };
+
+  // error checking
+  const errors = {};
+
+  if (!isValidPhone(order.phone)) {
+    errors.phone = "Please give us a correct phone Number";
+  }
+  if (Object.keys(errors).length > 0) return errors;
+
+  const submitRequest = await createOrder(order);
+  console.log(submitRequest);
+
+  return redirect(`/order/${submitRequest.id}`);
+};
 
 export default CreateOrder;

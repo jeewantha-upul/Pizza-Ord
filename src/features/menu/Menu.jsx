@@ -1,3 +1,4 @@
+/* eslint-disable react/react-in-jsx-scope */
 import { getMenu } from "../../services/apiRestaurant.js";
 import { useLoaderData } from "react-router-dom";
 import MenuItem from "./MenuItem.jsx";
@@ -16,6 +17,7 @@ function Menu() {
 
 export const loader = async () => {
   const menu = await getMenu();
+  console.log(menu);
   return menu;
 };
 
