@@ -8,6 +8,9 @@ function CartOverview() {
 
   const totalCartQuantity = useSelector(getTotalCartQuantity);
   const totalCartPrice = useSelector(getTotalCartPrice);
+
+  if(totalCartQuantity === 0) return null;
+
   return (
     <div className="text-white-200 0-4 flex items-center justify-between bg-stone-500 px-4 py-4 text-sm uppercase sm:px-6 md:text-base">
       <p className="space-x-4 font-semibold text-stone-200 sm:space-x-6">
