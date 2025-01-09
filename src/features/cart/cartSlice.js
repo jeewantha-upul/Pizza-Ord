@@ -5,7 +5,7 @@ const initialState = {
     pizzaId:2343,
     name:'name of the pizza',
     quantity:2,
-    unitPrize:30,
+    unitPrice:30,
     totalPrice:230
   }]
 }
@@ -27,20 +27,28 @@ const cartSlice = createSlice({
       let item = state.cart.find( item => item.pizzaId === action.payload);
       item.quantity++;
 
-      item.totalPrice = item.quantity * item.unitPrize;
+      item.totalPrice = item.quantity * item.unitPrice;
     },
     decreaseItemQuantity(state , action){
       // payload - pizzaId
       let item = state.cart.find( item => item.pizzaId === action.payload);
       item.quantity--;
 
-      item.totalPrice = item.quantity * item.unitPrize;
+      item.totalPrice = item.quantity * item.unitPrice;
     },
     clearCart(state ){
       state.cart = [];
     }
   }
 })
+
+export const getTotalCartQuantity = (state)=>
+  state.cart.cart.reduce((sum,item)=> sum + item.quantity , 0)
+
+
+export const getTotalCartPrice = (state)=>
+  state.cart.cart.reduce((sum,item)=> sum + item.unitPrice , 0)
+
 
 export const {addItem , deleteItem , increaseItemQuantity , decreaseItemQuantity , clearCart} = cartSlice.actions;
 export default cartSlice.reducer;
