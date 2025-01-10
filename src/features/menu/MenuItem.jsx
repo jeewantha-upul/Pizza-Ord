@@ -10,9 +10,9 @@ function MenuItem({ pizza }) {
   const { id, name, unitPrice, ingredients, soldOut, imageUrl } = pizza;
   const dispatch = useDispatch();
 
+  // checking the availability of this pizza item in the cart
 const itemAvailability = useSelector(getCurrentQuantityById(id));
 
-console.log(itemAvailability)
 
   const addItemHandler = ()=>{
 console.log(id);
