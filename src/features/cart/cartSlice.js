@@ -35,6 +35,10 @@ const cartSlice = createSlice({
     }
   }
 })
+
+// getting the availability of this pizza in the cart
+export const getCurrentQuantityById = (id) => (state)=> state.cart.cart.find((item) => item.pizzaId === id)?.quantity ?? 0;
+
 export const getCart = state => state.cart.cart;
 
 export const getTotalCartQuantity = (state)=>

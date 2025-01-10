@@ -1,13 +1,18 @@
 /* eslint-disable react/prop-types */
 /* eslint-disable react/react-in-jsx-scope */
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import Button from "../../UI/Button";
 import { formatCurrency } from "../../utils/helpers";
-import {addItem} from '../cart/cartSlice'
+import {addItem, getCurrentQuantityById} from '../cart/cartSlice'
+import DeleteItem from "../cart/DeleteItem";
 
 function MenuItem({ pizza }) {
   const { id, name, unitPrice, ingredients, soldOut, imageUrl } = pizza;
   const dispatch = useDispatch();
+
+const itemAvailability = useSelector(getCurrentQuantityById(id));
+
+console.log(itemAvailability)
 
   const addItemHandler = ()=>{
 console.log(id);
@@ -33,7 +38,9 @@ dispatch(addItem(newPizza))
         <p className="text-sm capitalize italic text-stone-500">
           {ingredients.join(", ")}
         </p>
+       
         <div className="mt-auto flex items-center justify-between">
+     
           {!soldOut ? (
             <p className="text-sm">{formatCurrency(unitPrice)}</p>
           ) : (
@@ -41,8 +48,8 @@ dispatch(addItem(newPizza))
               Sold out
             </p>
           )}
-
-          {!soldOut && <Button onClick = {addItemHandler} type="small">Add To Cart</Button>}
+         {itemAvailability !== 0 && <DeleteItem pizzaId={id}/> } 
+          {!soldOut && (itemAvailability === 0) &&<Button onClick = {addItemHandler} type="small">Add To Cart</Button>}
         </div>
       </div>
     </li>
