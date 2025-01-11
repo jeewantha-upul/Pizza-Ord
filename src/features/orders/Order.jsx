@@ -10,7 +10,7 @@ import {
 } from "../../utils/helpers";
 import OrderItem from "./OrderItem";
 
-// const order = {
+ 
 //   id: "ABCDEF",
 //   customer: "Jonas",
 //   phone: "123456789",
@@ -60,7 +60,7 @@ function Order() {
   } = order;
   const deliveryIn = calcMinutesLeft(estimatedDelivery);
 
-  console.log(cart);
+
   return (
     <div className="space-y-8 px-4 py-6">
       <div className="flex flex-wrap items-center justify-between gap-2">
@@ -91,7 +91,7 @@ function Order() {
 
       <ul className="divide-y divide-stone-200 border-b border-t">
         {cart.map((item) => {
-          return <OrderItem item={item} key={item.id} />;
+          return <OrderItem item={item} key={item.pizzaId} />;
         })}
       </ul>
 

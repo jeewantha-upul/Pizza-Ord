@@ -26,7 +26,7 @@ function CreateUser() {
       <p className="mb-4 text-sm text-stone-600">
         👋 Welcome! {userName!=='' ? userName : 'Please start by telling us your name:'}
       </p>
-       {userName ? <Button type='primary' to = '/'>Proceed to Order  </Button> :  <input
+       {userName ? <Button type='primary' to = '/menu'>Proceed to Order  </Button> :  <input
         type="text"
         placeholder="Your full name"
         value={username}
