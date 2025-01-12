@@ -5,9 +5,11 @@ import Button from "../../UI/Button";
 import { Form, redirect, useActionData } from "react-router-dom";
 import { createOrder } from "../../services/apiRestaurant";
 import { useSelector } from "react-redux";
-import { clearCart, getCart } from "../cart/cartSlice";
+import { clearCart, getCart, getTotalCartPrice } from "../cart/cartSlice";
 import EmptyCart from "../cart/EmptyCart";
 import store from '../../store'
+import { formatCurrency } from "../../utils/helpers";
+import { useState } from "react";
 
 // https://uibakery.io/regex-library/phone-number
 const isValidPhone = (str) =>
@@ -17,8 +19,19 @@ const isValidPhone = (str) =>
 
 
 function CreateOrder() {
-  // const [withPriority, setWithPriority] = useState(false);
+  const [withPriority, setWithPriority] = useState(false);
   const cart = useSelector(getCart);
+  const totalPizzaPrice = useSelector(getTotalCartPrice);
+
+  // if the order is priority, 20% of the bill value is charged
+  let totalPrize;
+  if(withPriority){
+    totalPrize = totalPizzaPrice + (totalPizzaPrice/5);
+  }
+  else totalPrize = totalPizzaPrice;
+
+
+
 
   const formErrors = useActionData();
   const phoneNumberError = formErrors?.phone;
@@ -70,8 +83,8 @@ if(!cart.length) return <EmptyCart/>
             type="checkbox"
             name="priority"
             id="priority"
-            // value={withPriority}
-            // onChange={(e) => setWithPriority(e.target.checked)}
+            value={withPriority}
+            onChange={(e) => setWithPriority(e.target.checked)}
           />
           <label htmlFor="priority" className="font-medium">
             Want to yo give your order priority?
@@ -80,7 +93,7 @@ if(!cart.length) return <EmptyCart/>
 
         <div>
           <input type="hidden" name="cart" value={JSON.stringify(cart)} />
-          <Button type="primary">Order Now</Button>
+          <Button type="primary">Order Now : {formatCurrency(totalPrize)}</Button>
         </div>
       </Form>
     </div>
@@ -94,7 +107,7 @@ export const action = async ({ request }) => {
   const order = {
     ...formObj,
     cart: JSON.parse(formObj.cart),
-    priority: formObj.priority === "on",
+    priority: formObj.priority === "true",
   };
 
   // error checking

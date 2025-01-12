@@ -9,7 +9,7 @@ import UpdateItemQuantity from "../cart/UpdateItemQuantity";
 
 function MenuItem({ pizza }) {
   const { id, name, unitPrice, ingredients, soldOut, imageUrl } = pizza;
-  console.log(pizza)
+ 
   const dispatch = useDispatch();
 
   // checking the availability of this pizza item in the cart
@@ -17,7 +17,7 @@ const itemAvailability = useSelector(getCurrentQuantityById(id));
 
 
   const addItemHandler = ()=>{
-console.log(id);
+ 
 const newPizza = {
   pizzaId:id,
   name,
