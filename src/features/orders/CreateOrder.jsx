@@ -145,7 +145,7 @@ export const action = async ({ request }) => {
   if (Object.keys(errors).length > 0) return errors;
 
   const submitRequest = await createOrder(order);
-  console.log(submitRequest);
+ 
 
   // clearing the current cart when submitting the order
   store.dispatch(clearCart());

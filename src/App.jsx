@@ -9,6 +9,7 @@ import Cart from "./features/cart/Cart";
 import AppLayout from "./UI/AppLayout";
 import { loader as menuLoader } from "./features/menu/Menu";
 import { loader as orderLoader } from "./features/orders/Order";
+import { action as orderPriorityAction} from './features/orders/UpdateOrder'
 import { action as orderAction } from "./features/orders/CreateOrder";
 
 const App = () => {
@@ -29,6 +30,7 @@ const App = () => {
           path: "/order/:orderId",
           element: <Order />,
           loader: orderLoader,
+          action:orderPriorityAction,
           errorElement: <Error />,
         },
         { path: "/cart", element: <Cart /> },
