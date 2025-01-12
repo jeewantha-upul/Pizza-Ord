@@ -1,7 +1,9 @@
 /* eslint-disable no-unused-vars */
 /* eslint-disable react/prop-types */
 /* eslint-disable react/react-in-jsx-scope */
+ 
 import { formatCurrency } from "../../utils/helpers";
+ 
 
 function OrderItem({ item, isLoadingIngredients, ingredients }) {
   const { quantity, name, totalPrice } = item;
@@ -14,6 +16,7 @@ function OrderItem({ item, isLoadingIngredients, ingredients }) {
         </p>
         <p className="font-bold">{formatCurrency(totalPrice)}</p>
       </div>
+      <p>{isLoadingIngredients ? "Loading ..." : ingredients.join(',') }</p>
     </li>
   );
 }

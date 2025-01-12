@@ -19,7 +19,7 @@ const cartSlice = createSlice({
     increaseItemQuantity(state , action){
       // payload - pizzaId
       let item = state.cart.find( item => item.pizzaId === action.payload);
-      console.log(item);
+ 
       item.quantity++;
 
       item.totalPrice = item.quantity * item.unitPrice;
